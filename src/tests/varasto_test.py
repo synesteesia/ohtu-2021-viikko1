@@ -4,7 +4,9 @@ from varasto import Varasto
 
 class TestVarasto(unittest.TestCase):
     def setUp(self):
-        self.varasto = Varasto(10)
+        self.varasto = Varasto(10, -1)
+        self.viisi = Varasto(5, 6)
+        self.nolla = Varasto(0)
 
     def test_konstruktori_luo_tyhjan_varaston(self):
         # https://docs.python.org/3/library/unittest.html#unittest.TestCase.assertAlmostEqual
@@ -24,6 +26,7 @@ class TestVarasto(unittest.TestCase):
         # vapaata tilaa pitäisi vielä olla tilavuus-lisättävä määrä eli 2
         self.assertAlmostEqual(self.varasto.paljonko_mahtuu(), 2)
 
+
     def test_ottaminen_palauttaa_oikean_maaran(self):
         self.varasto.lisaa_varastoon(8)
 
@@ -38,3 +41,48 @@ class TestVarasto(unittest.TestCase):
 
         # varastossa pitäisi olla tilaa 10 - 8 + 2 eli 4
         self.assertAlmostEqual(self.varasto.paljonko_mahtuu(), 4)
+
+    def test_lisays_lisaa_rajoittuu_vapaaseen_tilaan(self):
+        self.varasto.lisaa_varastoon(11)
+
+        # vapaata tilaa pitäisi olla 0
+        self.assertAlmostEqual(self.varasto.paljonko_mahtuu(), 0)
+        self.assertAlmostEqual(self.varasto.saldo, 10)
+
+    def test_ottaminen_liikaa_palauttaa_oikean_maaran(self):
+        self.varasto.lisaa_varastoon(8)
+
+        saatu_maara = self.varasto.ota_varastosta(9)
+
+        self.assertAlmostEqual(saatu_maara, 8)
+
+    def test_ottaminen_negatiivinen_palauttaa_oikean_maaran(self):
+        self.varasto.lisaa_varastoon(8)
+
+        saatu_maara = self.varasto.ota_varastosta(-1)
+
+        self.assertAlmostEqual(saatu_maara, 0)
+
+    def test_lisays_negatiivinen_ei_lisaa(self):
+        self.varasto.lisaa_varastoon(-1)
+
+        self.assertAlmostEqual(self.varasto.paljonko_mahtuu(), 10)
+        self.assertAlmostEqual(self.varasto.saldo, 0)
+
+    def test_konstruktori_luo_tayden_varaston(self):
+        self.assertAlmostEqual(self.nolla.paljonko_mahtuu(), 0)
+
+    def test_konstruktori_luo_negat_saldon(self):
+        self.assertAlmostEqual(self.varasto.paljonko_mahtuu(), 10)
+
+    def test_konstruktori_luo_tayden_saldon(self):
+        self.assertAlmostEqual(self.viisi.paljonko_mahtuu(), 0)
+
+    def test_toString_toimii(self):
+        self.assertEqual(self.nolla.__str__(), "saldo = 0, vielä tilaa 0.0")
+
+        
+
+
+        
+
