@@ -24,8 +24,7 @@ jobs:
         run: poetry run coverage run --branch -m pytest
       - name: add lint
       - run: poetry add lint
-      - name: Run lint
-        run: poetry run lint src
+
 
 
 
