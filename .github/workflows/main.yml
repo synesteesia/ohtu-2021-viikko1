@@ -22,6 +22,11 @@ jobs:
         run: poetry install
       - name: Run tests
         run: poetry run coverage run --branch -m pytest
+      - name: install lint
+        run: pip install pylint
+      - name: Analysing the code with pylint
+        run: find . -name '*.py' -exec pylint {} \;
+        
 
 
       # Runs a single command using the runners shell
