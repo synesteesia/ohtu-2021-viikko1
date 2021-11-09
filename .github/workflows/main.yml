@@ -22,10 +22,7 @@ jobs:
         run: poetry install
       - name: Run tests
         run: poetry run coverage run --branch -m pytest
-      - name: Python Pylin GitHub Action
-        uses: fylein/python-pylint-github-action@v1
-        with:
-         args: pip3 install -r requirements.txt && pylint --rcfile=.pylintrc src
+
 
 
 
